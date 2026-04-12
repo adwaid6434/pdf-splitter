@@ -41,7 +41,7 @@ export default function PdfUploader() {
   }
 
   return (
-    <div className="w-full flex justify-center px-4 py-10">
+    <div className="w-full flex justify-center px-4 py-12">
       <label
         onDrop={handleDrop}
         onDragOver={(e) => e.preventDefault()}
@@ -52,10 +52,9 @@ export default function PdfUploader() {
           flex-col
           items-center
           justify-center
-          gap-3
-          border
-          border-gray-300
+          gap-4
           rounded-xl
+          border-2
           p-10
           text-center
           cursor-pointer
@@ -65,7 +64,6 @@ export default function PdfUploader() {
         "
       >
         <span className="text-lg font-medium">Drag & drop PDF here</span>
-
         <span className="text-sm text-gray-500">or click to upload</span>
         <input
           type="file"
@@ -79,17 +77,7 @@ export default function PdfUploader() {
             mt-2
             w-full
             text-sm
-            file:mr-4
-            file:py-2
-            file:px-4
-            file:border
-            file:border-gray-300
-            file:rounded-md
-            file:bg-white
-            file:text-sm
-            file:font-medium
-            file:cursor-pointer
-            hover:file:bg-gray-100
+            file:hidden
           "
         />
       </label>
