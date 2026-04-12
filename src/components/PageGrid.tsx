@@ -3,6 +3,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import Image from "next/image";
 
 import { usePdfStore } from "@/store/usePdfStore";
 
@@ -114,7 +115,14 @@ export default function PageGrid() {
                 }
               `}
             >
-              <img src={src} className="w-full" />
+              {/* <img src={src} className="w-full" /> */}
+              <Image
+                src={src}
+                alt={`page ${page}`}
+                width={300}
+                height={420}
+                className="w-full h-auto"
+              />
 
               <div className="text-xs p-1 bg-white">page {page}</div>
 

@@ -64,33 +64,102 @@ export default function SplitGroupsPanel() {
   }
 
   return (
-    <div className="space-y-3">
+    <div className="w-full max-w-3xl mx-auto flex flex-col gap-4">
       {groups.map((g: SplitGroup) => (
-        <div key={g.id} className="flex gap-2 items-center">
+        <div
+          key={g.id}
+          className="
+            flex flex-col sm:flex-row
+            sm:items-center
+            gap-3
+            border
+            rounded-xl
+            p-4
+            bg-black/5
+            shadow-sm
+          "
+        >
           <input
             value={g.name}
             onChange={(e) => renameGroup(g.id, e.target.value)}
-            className="border px-2 py-1"
+            className="
+              flex-1
+              border
+              rounded-md
+              px-3
+              py-2
+              text-sm
+              focus:outline-none
+              focus:ring-2
+              focus:ring-black
+            "
           />
 
-          <span className="text-sm">pages: {g.pages.join(", ")}</span>
-
-          <button onClick={() => download(g)} className="border px-2 py-1">
-            download
-          </button>
-
-          <button
-            onClick={() => deleteGroup(g.id)}
-            className="border px-2 py-1"
+          <span
+            className="
+              text-sm
+              text-white
+              break-all
+              sm:w-48
+            "
           >
-            delete
-          </button>
+            pages: {g.pages.join(", ")}
+          </span>
+
+          <div className="flex gap-2">
+            <button
+              onClick={() => download(g)}
+              className="
+                px-3
+                py-2
+                text-sm
+                border
+                rounded-md
+                hover:bg-gray-100
+                transition
+              "
+            >
+              Download
+            </button>
+
+            <button
+              onClick={() => deleteGroup(g.id)}
+              className="
+                px-3
+                py-2
+                text-sm
+                border
+                rounded-md
+                text-red-600
+                hover:bg-red-50
+                transition
+              "
+            >
+              Delete
+            </button>
+          </div>
         </div>
       ))}
 
       {groups.length > 0 && (
-        <button onClick={downloadAll} className="bg-black text-white px-4 py-2">
-          download all
+        <button
+          onClick={downloadAll}
+          className="
+            w-full
+            sm:w-fit
+            self-end
+            px-5
+            py-2.5
+            rounded-lg
+            bg-black
+            text-white
+            text-sm
+            font-medium
+            hover:bg-gray-800
+            transition
+          "
+        >
+          Download All
         </button>
       )}
     </div>
