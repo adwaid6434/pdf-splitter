@@ -65,6 +65,12 @@ export default function SplitGroupsPanel() {
 
   return (
     <div className="w-full max-w-3xl mx-auto flex flex-col gap-4">
+      {groups.length > 0 && (
+        <p className="text-sm text-gray-500 mt-4">
+          (You can rename groups by editing the name field, and download them
+          individually or all at once as a zip file)
+        </p>
+      )}
       {groups.map((g: SplitGroup) => (
         <div
           key={g.id}
@@ -151,7 +157,7 @@ export default function SplitGroupsPanel() {
             px-5
             py-2.5
             rounded-lg
-            bg-black
+            bg-blue-600
             text-white
             text-sm
             font-medium
