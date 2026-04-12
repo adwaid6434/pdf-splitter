@@ -115,7 +115,7 @@ export default function SplitGroupsPanel() {
                 text-sm
                 border
                 rounded-md
-                hover:bg-gray-100
+                hover:bg-gray-800 
                 transition
               "
             >
@@ -131,7 +131,7 @@ export default function SplitGroupsPanel() {
                 border
                 rounded-md
                 text-red-600
-                hover:bg-red-50
+                hover:bg-gray-800               
                 transition
               "
             >

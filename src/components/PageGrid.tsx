@@ -146,6 +146,11 @@ export default function PageGrid() {
           );
         })}
       </div>
+
+      <p className="text-sm text-gray-500 mt-4">
+        Preview thumbnails are compressed for speed. Your final PDF will keep
+        the original quality.
+      </p>
     </div>
   );
 }

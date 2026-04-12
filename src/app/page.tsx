@@ -63,11 +63,6 @@ export default function Home() {
       <section className="space-y-4 max-w-xl">
         <CreateSplitButton />
 
-        <p className="text-sm text-gray-500">
-          Preview thumbnails are compressed for speed. Your final PDF will keep
-          the original quality.
-        </p>
-
         <SplitGroupsPanel />
       </section>
     </main>
