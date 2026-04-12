@@ -46,7 +46,7 @@ export default function Home() {
           Split PDF in seconds
         </h1>
         <p className="text-gray-600 text-sm">
-          Select pages, create groups, and download instantly. Fast, simple, and
+          Select pages, create groups, and download instantly. Fast, secure, and
           completely free.
         </p>
       </header>
