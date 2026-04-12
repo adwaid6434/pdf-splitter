@@ -56,9 +56,8 @@ export default function Home() {
         <div className="w-full max-w-4xl">
           <PdfUploader />
         </div>
-
-        <PageGrid />
       </section>
+      <PageGrid />
 
       {/* LEFT */}
       <section className="space-y-4 max-w-xl">
