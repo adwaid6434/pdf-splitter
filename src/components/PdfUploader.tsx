@@ -1,14 +1,16 @@
 // components/PdfUploader.tsx
 
 "use client";
-
+import { useState } from "react";
 import { usePdfStore } from "@/store/usePdfStore";
 import { getPdfjs } from "@/lib/pdfClient";
 
 export default function PdfUploader() {
   const setFile = usePdfStore((s) => s.setFile);
+  const [fileName, setFileName] = useState("No file chosen");
 
   async function processFile(file: File) {
+    setFileName(file.name);
     const pdfjs = await getPdfjs();
 
     const originalBuffer = await file.arrayBuffer();
@@ -73,13 +75,9 @@ export default function PdfUploader() {
 
             if (file) processFile(file);
           }}
-          className="
-            mt-2
-            w-full
-            text-sm
-            file:hidden
-          "
+          className="hidden"
         />
+        <span className="text-sm text-white-500">{fileName}</span>
       </label>
     </div>
   );
