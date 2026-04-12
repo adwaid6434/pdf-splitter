@@ -8,9 +8,16 @@ export type SplitGroup = {
   pages: number[];
 };
 
+export type PdfBuffers = {
+  viewerBytes: Uint8Array;
+  thumbnailBytes: Uint8Array;
+  splitBytes: Uint8Array;
+};
+
 type State = {
   file?: File;
-  pdfBytes?: Uint8Array;
+
+  buffers?: PdfBuffers;
 
   pageCount: number;
 
@@ -18,7 +25,7 @@ type State = {
 
   groups: SplitGroup[];
 
-  setFile: (file: File, bytes: Uint8Array, pages: number) => void;
+  setFile: (file: File, buffers: PdfBuffers, pages: number) => void;
 
   togglePage: (page: number) => void;
 
@@ -38,12 +45,16 @@ export const usePdfStore = create<State>((set, get) => ({
 
   groups: [],
 
-  setFile: (file, bytes, pages) =>
+  setFile: (file, buffers, pages) =>
     set({
       file,
-      pdfBytes: bytes,
+
+      buffers,
+
       pageCount: pages,
+
       selectedPages: [],
+
       groups: [],
     }),
 

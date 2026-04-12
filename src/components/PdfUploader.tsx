@@ -1,21 +1,36 @@
 // components/PdfUploader.tsx
+
+"use client";
 "use client";
 
 import { usePdfStore } from "@/store/usePdfStore";
-
-import * as pdfjs from "pdfjs-dist";
+import { getPdfjs } from "@/lib/pdfClient";
 
 export default function PdfUploader() {
   const setFile = usePdfStore((s) => s.setFile);
 
   async function processFile(file: File) {
-    const bytes = new Uint8Array(await file.arrayBuffer());
+    const pdfjs = await getPdfjs();
+
+    const originalBuffer = await file.arrayBuffer();
+
+    const viewerBytes = new Uint8Array(originalBuffer.slice(0));
+    const thumbnailBytes = new Uint8Array(originalBuffer.slice(0));
+    const splitBytes = new Uint8Array(originalBuffer.slice(0));
 
     const pdf = await pdfjs.getDocument({
-      data: bytes,
+      data: viewerBytes,
     }).promise;
 
-    setFile(file, bytes, pdf.numPages);
+    setFile(
+      file,
+      {
+        viewerBytes,
+        thumbnailBytes,
+        splitBytes,
+      },
+      pdf.numPages,
+    );
   }
 
   function handleDrop(e: React.DragEvent) {
@@ -30,13 +45,7 @@ export default function PdfUploader() {
     <div
       onDrop={handleDrop}
       onDragOver={(e) => e.preventDefault()}
-      className="
-        border-dashed
-        border-2
-        p-10
-        text-center
-        cursor-pointer
-      "
+      className="border-2 border-dashed p-10 text-center cursor-pointer"
     >
       drag & drop pdf here
       <br />
@@ -49,6 +58,7 @@ export default function PdfUploader() {
 
           if (file) processFile(file);
         }}
+        className="mt-3"
       />
     </div>
   );

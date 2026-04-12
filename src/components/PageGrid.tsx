@@ -1,4 +1,5 @@
 // components/PageGrid.tsx
+
 "use client";
 
 import { useEffect, useState, useRef } from "react";
@@ -8,7 +9,7 @@ import { usePdfStore } from "@/store/usePdfStore";
 import { loadPdfForThumbs, renderThumbnail } from "@/lib/pdfThumbnail";
 
 export default function PageGrid() {
-  const pdfBytes = usePdfStore((s) => s.pdfBytes);
+  const thumbnailBytes = usePdfStore((s) => s.buffers?.thumbnailBytes);
 
   const pageCount = usePdfStore((s) => s.pageCount);
 
@@ -24,8 +25,7 @@ export default function PageGrid() {
 
   const lastClickedRef = useRef<number | null>(null);
 
-  // track usage frequency
-
+  // usage counter
   const usageMap = groups
     .flatMap((g) => g.pages)
     .reduce(
@@ -38,10 +38,9 @@ export default function PageGrid() {
     );
 
   useEffect(() => {
-    if (!pdfBytes) return;
+    if (!thumbnailBytes) return;
 
-    // create locally narrowed variable
-    const bytes = pdfBytes;
+    const bytes = thumbnailBytes;
 
     async function load() {
       setLoading(true);
@@ -60,31 +59,17 @@ export default function PageGrid() {
     }
 
     load();
-  }, [pdfBytes, pageCount]);
+  }, [thumbnailBytes, pageCount]);
 
-  if (!pdfBytes) return null;
+  if (!thumbnailBytes) return null;
 
   return (
     <div>
       {loading && (
-        <div
-          className="
-            mb-4
-            text-sm
-            opacity-70
-          "
-        >
-          generating previews...
-        </div>
+        <div className="mb-4 text-sm opacity-70">generating previews...</div>
       )}
 
-      <div
-        className="
-          grid
-          grid-cols-4
-          gap-4
-        "
-      >
+      <div className="grid grid-cols-4 gap-4">
         {thumbs.map((src, i) => {
           const page = i + 1;
 
@@ -121,47 +106,30 @@ export default function PageGrid() {
                 ${
                   isSelected
                     ? `
-                    border-blue-500
-                    ring-2
-                    ring-blue-300
-                  `
+                      border-blue-800
+                      ring-3
+                      ring-blue-800
+                    `
                     : "border-gray-300"
                 }
               `}
             >
-              <img
-                src={src}
-                className="
-                  w-full
-                "
-              />
+              <img src={src} className="w-full" />
 
-              {/* page label */}
-
-              <div
-                className="
-                  text-xs
-                  p-1
-                  bg-white
-                "
-              >
-                page {page}
-              </div>
-
-              {/* usage badge */}
+              <div className="text-xs p-1 bg-white">page {page}</div>
 
               {usage > 0 && (
                 <div
                   className="
-                    absolute
-                    top-1
-                    right-1
-                    text-xs
-                    px-1
-                    bg-black
-                    text-white
-                    rounded
-                  "
+                  absolute
+                  top-1
+                  right-1
+                  text-xs
+                  px-1
+                  bg-black
+                  text-white
+                  rounded
+                "
                 >
                   {usage}
                 </div>

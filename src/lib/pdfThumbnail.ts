@@ -1,26 +1,30 @@
 // lib/pdfThumbnail.ts
+
 "use client";
 
-import * as pdfjs from "pdfjs-dist";
-
-pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+import type { PDFDocumentProxy } from "pdfjs-dist";
+import { getPdfjs } from "@/lib/pdfClient";
 
 export async function loadPdfForThumbs(
   pdfBytes: Uint8Array,
-): Promise<pdfjs.PDFDocumentProxy> {
-  return await pdfjs.getDocument({
-    data: pdfBytes,
+): Promise<PDFDocumentProxy> {
+  const pdfjs = await getPdfjs();
+
+  return pdfjs.getDocument({
+    data: new Uint8Array(pdfBytes.slice(0)),
   }).promise;
 }
 
 export async function renderThumbnail(
-  pdf: pdfjs.PDFDocumentProxy,
+  pdf: PDFDocumentProxy,
   pageNumber: number,
 ): Promise<string> {
   const page = await pdf.getPage(pageNumber);
 
   const viewport = page.getViewport({
-    scale: 0.35,
+    // increasing will make the thumbnail better but also larger in file size, so find a balance
+    // scale: 0.7, // perfect balance
+    scale: 0.8,
   });
 
   const canvas = document.createElement("canvas");
@@ -30,13 +34,12 @@ export async function renderThumbnail(
   if (!context) throw new Error("Canvas not supported");
 
   canvas.width = viewport.width;
-
   canvas.height = viewport.height;
 
   await page.render({
     canvasContext: context,
     viewport,
-    canvas,
+    canvas, // ✅ required in pdfjs v4 types
   }).promise;
 
   return canvas.toDataURL();

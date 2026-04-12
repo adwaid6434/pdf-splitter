@@ -1,4 +1,5 @@
 // components/SplitGroupsPanel.tsx
+
 "use client";
 
 import JSZip from "jszip";
@@ -10,16 +11,16 @@ import { usePdfStore, SplitGroup } from "@/store/usePdfStore";
 export default function SplitGroupsPanel() {
   const groups = usePdfStore((s) => s.groups);
 
-  const pdfBytes = usePdfStore((s) => s.pdfBytes);
+  const splitBytes = usePdfStore((s) => s.buffers?.splitBytes);
 
   const renameGroup = usePdfStore((s) => s.renameGroup);
 
   const deleteGroup = usePdfStore((s) => s.deleteGroup);
 
   async function download(group: SplitGroup): Promise<void> {
-    if (!pdfBytes) return;
+    if (!splitBytes) return;
 
-    const blob = await splitPDF(pdfBytes, group.pages);
+    const blob = await splitPDF(splitBytes, group.pages);
 
     const url = URL.createObjectURL(blob);
 
@@ -35,12 +36,12 @@ export default function SplitGroupsPanel() {
   }
 
   async function downloadAll(): Promise<void> {
-    if (!pdfBytes) return;
+    if (!splitBytes) return;
 
     const zip = new JSZip();
 
     for (const g of groups) {
-      const blob = await splitPDF(pdfBytes, g.pages);
+      const blob = await splitPDF(splitBytes, g.pages);
 
       zip.file(`${g.name}.pdf`, blob);
     }
@@ -72,10 +73,7 @@ export default function SplitGroupsPanel() {
             className="border px-2 py-1"
           />
 
-          <span className="text-sm">
-            pages:
-            {g.pages.join(", ")}
-          </span>
+          <span className="text-sm">pages: {g.pages.join(", ")}</span>
 
           <button onClick={() => download(g)} className="border px-2 py-1">
             download
@@ -91,14 +89,7 @@ export default function SplitGroupsPanel() {
       ))}
 
       {groups.length > 0 && (
-        <button
-          onClick={downloadAll}
-          className="
-            bg-black
-            text-white
-            px-4 py-2
-          "
-        >
+        <button onClick={downloadAll} className="bg-black text-white px-4 py-2">
           download all
         </button>
       )}
