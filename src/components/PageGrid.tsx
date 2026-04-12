@@ -1,7 +1,7 @@
 // components/PageGrid.tsx
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import { usePdfStore } from "@/store/usePdfStore";
 
@@ -21,6 +21,8 @@ export default function PageGrid() {
   const [thumbs, setThumbs] = useState<string[]>([]);
 
   const [loading, setLoading] = useState(false);
+
+  const lastClickedRef = useRef<number | null>(null);
 
   // track usage frequency
 
@@ -93,7 +95,21 @@ export default function PageGrid() {
           return (
             <button
               key={page}
-              onClick={() => toggle(page)}
+              onClick={(e) => {
+                if (e.shiftKey && lastClickedRef.current !== null) {
+                  const start = Math.min(lastClickedRef.current, page);
+
+                  const end = Math.max(lastClickedRef.current, page);
+
+                  for (let i = start; i <= end; i++) {
+                    toggle(i);
+                  }
+                } else {
+                  toggle(page);
+                }
+
+                lastClickedRef.current = page;
+              }}
               className={`
                 relative
                 border
