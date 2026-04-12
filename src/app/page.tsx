@@ -39,33 +39,35 @@ import SplitGroupsPanel from "@/components/SplitGroupsPanel";
 
 export default function Home() {
   return (
-    <main className="p-10 space-y-8">
-      <header className="space-y-1">
+    <main className="p-10 space-y-10">
+      {/* LEFT */}
+      <header className="space-y-1 max-w-xl">
         <h1 className="text-3xl font-bold tracking-tight">
           Split PDF in seconds
         </h1>
-
-        <p className="text-gray-600 text-lg">
+        <p className="text-gray-600 text-sm">
           Select pages, create groups, and download instantly. Fast, simple, and
           completely free.
         </p>
       </header>
 
-      <section className="space-y-6">
-        <PdfUploader />
-
-        <div className="space-y-2">
-          <PageGrid />
-
-          <p className="text-sm text-gray-500">
-            Preview thumbnails are compressed for speed. Your final PDF will
-            keep the original quality.
-          </p>
+      {/* CENTER */}
+      <section className="space-y-6 flex flex-col items-center">
+        <div className="w-full max-w-4xl">
+          <PdfUploader />
         </div>
+
+        <PageGrid />
       </section>
 
-      <section className="space-y-4">
+      {/* LEFT */}
+      <section className="space-y-4 max-w-xl">
         <CreateSplitButton />
+
+        <p className="text-sm text-gray-500">
+          Preview thumbnails are compressed for speed. Your final PDF will keep
+          the original quality.
+        </p>
 
         <SplitGroupsPanel />
       </section>
