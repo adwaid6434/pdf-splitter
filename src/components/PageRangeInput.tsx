@@ -22,18 +22,42 @@ export default function PageRangeInput() {
   }
 
   return (
-    <div className="flex gap-2">
+    <div className="w-full flex flex-col sm:flex-row gap-2 sm:items-center">
       <input
         placeholder="1-5,8,10-12"
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        className="border px-2 py-1"
+        className="
+          w-full
+          rounded-md
+          border
+          px-3
+          py-2
+          text-sm
+          outline-none
+          transition
+          focus:ring-2
+          focus:ring-blue-500
+          focus:border-blue-500
+        "
       />
 
       <button
         onClick={applyRange}
         className="
-          border px-2
+          w-full sm:w-auto
+          rounded-md
+          border
+          px-4
+          py-2
+          text-sm
+          font-medium
+          transition
+          hover:bg-gray-100
+          active:scale-[0.98]
+          focus:outline-none
+          focus:ring-2
+          focus:ring-blue-500
         "
       >
         select range
