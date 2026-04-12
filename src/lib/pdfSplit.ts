@@ -2,21 +2,29 @@
 
 import { PDFDocument } from "pdf-lib";
 
-export async function splitPDF(pdfBytes: Uint8Array, pages: number[]) {
-  const src = await PDFDocument.load(pdfBytes);
+export async function splitPDF(
+  pdfBytes: Uint8Array,
+  pages: number[],
+): Promise<Blob> {
+  const srcDoc = await PDFDocument.load(pdfBytes);
 
   const newDoc = await PDFDocument.create();
 
-  const copied = await newDoc.copyPages(
-    src,
+  const copiedPages = await newDoc.copyPages(
+    srcDoc,
     pages.map((p) => p - 1),
   );
 
-  copied.forEach((p) => newDoc.addPage(p));
+  copiedPages.forEach((page) => newDoc.addPage(page));
 
-  const bytes = await newDoc.save();
+  const newBytes = await newDoc.save();
 
-  return new Blob([bytes], {
+  // force standard ArrayBuffer
+  const safeBuffer = new ArrayBuffer(newBytes.length);
+
+  new Uint8Array(safeBuffer).set(newBytes);
+
+  return new Blob([safeBuffer], {
     type: "application/pdf",
   });
 }
