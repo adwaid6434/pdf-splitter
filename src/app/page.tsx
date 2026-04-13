@@ -62,9 +62,8 @@ export default function Home() {
       {/* LEFT */}
       <section className="space-y-4 max-w-xl">
         <CreateSplitButton />
-
-        <SplitGroupsPanel />
       </section>
+      <SplitGroupsPanel />
     </main>
   );
 }
