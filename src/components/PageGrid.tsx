@@ -41,6 +41,8 @@ export default function PageGrid() {
   useEffect(() => {
     if (!thumbnailBytes) return;
 
+    let cancelled = false;
+
     const bytes = thumbnailBytes;
 
     async function load() {
@@ -48,12 +50,16 @@ export default function PageGrid() {
 
       const pdf = await loadPdfForThumbs(bytes);
 
+      if (cancelled) return;
+
       const batchSize = 8;
 
       // reset thumbnails before starting
       setThumbs([]);
 
       for (let start = 0; start < pageCount; start += batchSize) {
+        if (cancelled) return;
+
         const end = Math.min(start + batchSize, pageCount);
 
         const batchPromises = [];
@@ -64,14 +70,22 @@ export default function PageGrid() {
 
         const batchResults = await Promise.all(batchPromises);
 
+        if (cancelled) return;
+
         // append results while preserving order
         setThumbs((prev) => [...prev, ...batchResults]);
       }
 
-      setLoading(false);
+      if (!cancelled) {
+        setLoading(false);
+      }
     }
 
     load();
+
+    return () => {
+      cancelled = true;
+    };
   }, [thumbnailBytes, pageCount]);
 
   if (!thumbnailBytes) return null;
