@@ -125,7 +125,7 @@ export default function SplitGroupsPanel() {
                 transition
               "
             >
-              Download
+              Download (.pdf)
             </button>
 
             <button
@@ -165,7 +165,7 @@ export default function SplitGroupsPanel() {
             transition
           "
         >
-          Download All
+          Download All (.zip)
         </button>
       )}
     </div>
