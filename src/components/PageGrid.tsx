@@ -136,7 +136,7 @@ export default function PageGrid() {
                 className="w-full h-auto"
               />
 
-              <div className="text-xs p-1 bg-white">page {page}</div>
+              <div className="text-xs p-1 bg-white text-black">page {page}</div>
 
               {usage > 0 && (
                 <div
