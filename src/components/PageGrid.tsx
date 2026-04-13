@@ -48,13 +48,25 @@ export default function PageGrid() {
 
       const pdf = await loadPdfForThumbs(bytes);
 
-      const promises = Array.from({
-        length: pageCount,
-      }).map((_, i) => renderThumbnail(pdf, i + 1));
+      const batchSize = 8;
 
-      const results = await Promise.all(promises);
+      // reset thumbnails before starting
+      setThumbs([]);
 
-      setThumbs(results);
+      for (let start = 0; start < pageCount; start += batchSize) {
+        const end = Math.min(start + batchSize, pageCount);
+
+        const batchPromises = [];
+
+        for (let i = start; i < end; i++) {
+          batchPromises.push(renderThumbnail(pdf, i + 1));
+        }
+
+        const batchResults = await Promise.all(batchPromises);
+
+        // append results while preserving order
+        setThumbs((prev) => [...prev, ...batchResults]);
+      }
 
       setLoading(false);
     }
