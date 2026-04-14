@@ -44,7 +44,7 @@ export default function Home() {
       {/* LEFT */}
       <header className="space-y-1 max-w-xl">
         <Link href="/privacynotice">
-          <h1 className="text-3xl font-bold tracking-tight">
+          <h1 className="text-3xl font-bold tracking-tight inline-block relative after:content- after:absolute after:left-[0%] after:w-[100%] after:bottom-0 after:border-b after:border-transparent hover:after:border-gray-300 after:transition-colors after:duration-300">
             Split PDF in seconds
           </h1>
         </Link>
