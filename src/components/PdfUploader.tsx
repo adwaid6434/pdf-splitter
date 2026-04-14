@@ -10,28 +10,33 @@ export default function PdfUploader() {
   const [fileName, setFileName] = useState("No file chosen");
 
   async function processFile(file: File) {
-    setFileName(file.name);
-    const pdfjs = await getPdfjs();
+    try {
+      setFileName(file.name);
+      const pdfjs = await getPdfjs();
 
-    const originalBuffer = await file.arrayBuffer();
+      const originalBuffer = await file.arrayBuffer();
 
-    const viewerBytes = new Uint8Array(originalBuffer.slice(0));
-    const thumbnailBytes = new Uint8Array(originalBuffer.slice(0));
-    const splitBytes = new Uint8Array(originalBuffer.slice(0));
+      const viewerBytes = new Uint8Array(originalBuffer.slice(0));
+      const thumbnailBytes = new Uint8Array(originalBuffer.slice(0));
+      const splitBytes = new Uint8Array(originalBuffer.slice(0));
 
-    const pdf = await pdfjs.getDocument({
-      data: viewerBytes,
-    }).promise;
+      const pdf = await pdfjs.getDocument({
+        data: viewerBytes,
+      }).promise;
 
-    setFile(
-      file,
-      {
-        viewerBytes,
-        thumbnailBytes,
-        splitBytes,
-      },
-      pdf.numPages,
-    );
+      setFile(
+        file,
+        {
+          viewerBytes,
+          thumbnailBytes,
+          splitBytes,
+        },
+        pdf.numPages,
+      );
+    } catch (err) {
+      console.error(err);
+      alert("Failed to load PDF");
+    }
   }
 
   function handleDrop(e: React.DragEvent) {
