@@ -24,7 +24,7 @@ export async function renderThumbnail(
   const viewport = page.getViewport({
     // increasing will make the thumbnail better but also larger in file size, so find a balance
     // scale: 0.7, // perfect balance
-    scale: 0.8,
+    scale: 0.9,
   });
 
   const canvas = document.createElement("canvas");
