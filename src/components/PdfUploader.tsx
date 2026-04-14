@@ -96,7 +96,7 @@ export default function PdfUploader() {
           }}
           className="hidden"
         />
-        <span className="text-sm text-white-500">{fileName}</span>
+        <span className="text-sm text-white">{fileName}</span>
       </label>
     </div>
   );
