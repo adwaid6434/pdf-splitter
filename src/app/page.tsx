@@ -32,6 +32,7 @@
 
 "use client";
 
+import Link from "next/link";
 import PdfUploader from "@/components/PdfUploader";
 import PageGrid from "@/components/PageGrid";
 import CreateSplitButton from "@/components/CreateSplitButton";
@@ -42,9 +43,11 @@ export default function Home() {
     <main className="p-10 space-y-10">
       {/* LEFT */}
       <header className="space-y-1 max-w-xl">
-        <h1 className="text-3xl font-bold tracking-tight">
-          Split PDF in seconds
-        </h1>
+        <Link href="/privacynotice">
+          <h1 className="text-3xl font-bold tracking-tight">
+            Split PDF in seconds
+          </h1>
+        </Link>
         <p className="text-gray-600 text-sm">
           Select pages, create groups, and download instantly. Fast, secure, and
           completely free.

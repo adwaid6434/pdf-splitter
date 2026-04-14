@@ -1,4 +1,4 @@
-This app processes PDFs entirely inside the user's browser.
+This site processes PDFs entirely inside the user's browser.
 
 The PDF never leaves the user's device.
 
