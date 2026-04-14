@@ -38,8 +38,15 @@ export default function PdfUploader() {
     e.preventDefault();
 
     const file = e.dataTransfer.files[0];
+    if (!file) return;
 
-    if (file) processFile(file);
+    if (file.type !== "application/pdf") {
+      alert("Only PDF files and no other formats");
+      return;
+    }
+
+    // if (file) processFile(file);
+    processFile(file);
   }
 
   return (
@@ -73,7 +80,14 @@ export default function PdfUploader() {
           onChange={(e) => {
             const file = e.target.files?.[0];
 
-            if (file) processFile(file);
+            if (!file) return;
+            if (file.type !== "application/pdf") {
+              alert("Only PDF files allowed");
+              return;
+            }
+            processFile(file);
+
+            // if (file) processFile(file);
           }}
           className="hidden"
         />
